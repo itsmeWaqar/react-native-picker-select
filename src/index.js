@@ -276,10 +276,12 @@ export default class RNPickerSelect extends PureComponent {
 
     renderIcon() {
         if (this.props.hideIcon) {
+            console.log('this.props.hideIcon');
             return null;
         }
-
-        return <View testID="icon_ios" style={[styles.icon, this.props.style.icon]} />;
+        return (<View testID="icon_ios" style={styles.iconIOS}>
+            {this.props.icon}
+        </View>);
     }
 
     renderTextInputOrChildren() {
@@ -363,11 +365,14 @@ export default class RNPickerSelect extends PureComponent {
 
     renderAndroid() {
         if (this.props.children) {
+            console.log('props. child');
             return this.renderAndroidHeadless();
         }
 
+        console.log('after this.props.children');
         return (
             <View style={[styles.viewContainer, this.props.style.viewContainer]}>
+                {this.renderIcon()}
                 <Picker
                     style={[
                         this.props.hideIcon ? { backgroundColor: 'transparent' } : {},
@@ -382,6 +387,7 @@ export default class RNPickerSelect extends PureComponent {
                 >
                     {this.renderPickerItems()}
                 </Picker>
+
                 <View style={[styles.underline, this.props.style.underline]} />
             </View>
         );
@@ -414,6 +420,12 @@ const styles = StyleSheet.create({
     chevronActive: {
         borderTopColor: '#007AFE',
         borderRightColor: '#007AFE',
+    },
+    iconIOS: {
+        position: 'absolute',
+        // height: 0,
+        top: 20,
+        right: 10,
     },
     icon: {
         position: 'absolute',
